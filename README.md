@@ -1,2 +1,2 @@
 # exp
-My experimental projects
+Experimental useful codes.
