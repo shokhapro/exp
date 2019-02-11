@@ -9,7 +9,7 @@ URandom - is better random for Unity
         private URandom _rand;
       private void Start()
       {
-        _rand = new URandom(-1, 1);
+        _rand = new URandom(-10, 10);
       }
 
       private void Update()
