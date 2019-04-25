@@ -9,7 +9,8 @@ public class URandom
 		_array = new int[max - min + 1];
 		for (var i = 0; i < _array.Length; i++) _array[i] = min + i;
 		ResetList();
-		_lastId = _nextId = 0;
+		_lastId = -1;
+		_nextId = 0;
 	}
 
 	private int[] _array;
@@ -41,6 +42,6 @@ public class URandom
 		return next;
 	}
 
-	public int last { get { return _array[_lastId]; }}
+	public int last { get { return _lastId == -1 ? -1 : _array[_lastId]; }}
 	public int next { get { return _array[_nextId]; }}
 }
