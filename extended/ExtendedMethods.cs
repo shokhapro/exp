@@ -103,20 +103,78 @@ public static partial class ExtendedMethods
 		return array[Random.Range(0, array.Length)];
 	}
 
-	public static void Timeout(this MonoBehaviour script, float time, UnityAction action)
-	{
-		script.StartCoroutine(TimeCoroutine(time, action));
-	}
-
-	private static IEnumerator TimeCoroutine(float time, UnityAction action)
-	{
-		yield return new WaitForSeconds(time);
-		action.Invoke();
-	}
-
 	public static Color WithAlpha(this Color color, float a)
 	{
 		color.a = a;
 		return color;
 	}
+	
+	public static float GetPosX(this RectTransform rtransform)
+    {
+	Vector2 wh = rtransform.offsetMax - rtransform.offsetMin;
+	Vector2 p = rtransform.pivot;
+	return rtransform.offsetMin.x + wh.x * p.x;
+    }
+
+    public static float GetPosY(this RectTransform rtransform)
+    {
+	Vector2 wh = rtransform.offsetMax - rtransform.offsetMin;
+	Vector2 p = rtransform.pivot;
+	return rtransform.offsetMin.y + wh.y * p.y;
+    }
+
+    public static Vector2 GetPosXY(this RectTransform rtransform)
+    {
+	Vector2 wh = rtransform.offsetMax - rtransform.offsetMin;
+	Vector2 p = rtransform.pivot;
+	return new Vector2(rtransform.offsetMin.x + wh.x * p.x, rtransform.offsetMin.y + wh.y * p.y);
+    }
+
+    public static void SetPosX(this RectTransform rtransform, float x)
+    {
+	Vector2 wh = rtransform.offsetMax - rtransform.offsetMin;
+	Vector2 p = rtransform.pivot;
+	rtransform.offsetMax = new Vector2(x + wh.x * (1 - p.x), rtransform.offsetMax.y);
+	rtransform.offsetMin = new Vector2(x - wh.x * p.x, rtransform.offsetMin.y);
+    }
+
+    public static void SetPosY(this RectTransform rtransform, float y)
+    {
+	Vector2 wh = rtransform.offsetMax - rtransform.offsetMin;
+	Vector2 p = rtransform.pivot;
+	rtransform.offsetMax = new Vector2(rtransform.offsetMax.x, y + wh.y * (1 - p.y));
+	rtransform.offsetMin = new Vector2(rtransform.offsetMin.x, y - wh.y * p.y);
+    }
+
+    public static void SetPosXY(this RectTransform rtransform, Vector2 xy)
+    {
+	Vector2 wh = rtransform.offsetMax - rtransform.offsetMin;
+	Vector2 p = rtransform.pivot;
+	rtransform.offsetMax = new Vector2(xy.x + wh.x * (1 - p.x), xy.y + wh.y * (1 - p.y));
+	rtransform.offsetMin = new Vector2(xy.x - wh.x * p.x, xy.y - wh.y * p.y);
+    }
+
+    public static void SetPosXY(this RectTransform rtransform, float x, float y)
+    {
+	Vector2 wh = rtransform.offsetMax - rtransform.offsetMin;
+	Vector2 p = rtransform.pivot;
+	rtransform.offsetMax = new Vector2(x + wh.x * (1 - p.x), y + wh.y * (1 - p.y));
+	rtransform.offsetMin = new Vector2(x - wh.x * p.x, y - wh.y * p.y);
+    }
+
+    public static void DelayedAction(this MonoBehaviour script, UnityAction action, float delay = 0.1f)
+    {
+	script.StartCoroutine(ActionDelayed(delay, action));
+    }
+
+    static IEnumerator ActionDelayed(float delay, UnityAction action)
+    {
+	yield return new WaitForSeconds(delay);
+	action.Invoke();
+    }
+
+    public static void SetRotation(this RectTransform rtransform, float value)
+    {
+	rtransform.localEulerAngles = new Vector3(rtransform.localEulerAngles.x, rtransform.localEulerAngles.y, value);
+    }
 }
