@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -49,9 +49,9 @@ internal static class CoroutineMethods
     {
         FunctionFloat f = (t) =>
         {
-            float x = t * 2 - 1;
+            float x = t * 2f - 1f;
             float y = Mathf.Sign(x) * Mathf.Pow(Mathf.Abs(x), 0.5f);
-            return y > 0 ? y : y + 1f;
+            return (y + 1f) * 0.5f;
         };
 
         return script.StartCoroutine(FloatFadeCoroutine(fromValue, toValue, duration, f, update, end));
