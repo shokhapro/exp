@@ -16,6 +16,25 @@ internal static class CoroutineMethods
         action.Invoke();
     }
 
+    public static Coroutine IntervalAction(this MonoBehaviour script, UnityAction action, float interval, int count = -1)
+    {
+        return script.StartCoroutine(IntervalActionCoroutine(action, interval, count));
+    }
+    private static IEnumerator IntervalActionCoroutine(UnityAction action, float interval, int count)
+    {
+        bool infinite = count == -1;
+        int n = 0;
+
+        while (infinite || n < count)
+        {
+            n++;
+
+            action.Invoke();
+
+            yield return new WaitForSeconds(interval);
+        }
+    }
+
     public delegate void ActionFloat(float value);
     public delegate float FunctionFloat(float value);
     public static Coroutine FloatFade(this MonoBehaviour script, float fromValue, float toValue, float duration, ActionFloat update, UnityAction end = null)
